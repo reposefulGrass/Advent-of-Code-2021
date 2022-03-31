@@ -1,11 +1,12 @@
 
+from dataclasses import dataclass
 from termcolor import colored
 
 
+@dataclass
 class Slot:
-    def __init__(self, value, marked):
-        self.value = value
-        self.marked = marked
+    value: int
+    marked: bool
 
     def __repr__(self):
         if self.marked:
@@ -27,7 +28,7 @@ class Board:
             result += "\n"
         return result
 
-    def read_board(self, input: list[str]):
+    def read_board(self, input: list[str]) -> None:
         row = 0
         col = 0
         for line in input:
@@ -37,13 +38,14 @@ class Board:
             row += 1
             col = 0
 
-    def mark(self, number: int):
+    def mark(self, number: int) -> None:
         for row in range(self.width):
             for col in range(self.width):
                 if self.board[row][col].value == number:
                     self.board[row][col].marked = True
+                    return
 
-    def is_bingo(self):
+    def has_bingo(self) -> bool:
         bingo = False
 
         for i in range(self.width):
@@ -69,7 +71,7 @@ class Board:
         
         return bingo
 
-    def unmarked_sum(self):
+    def unmarked_sum(self) -> int:
         sum = 0
         for row in range(self.width):
             for col in range(self.width):
@@ -88,15 +90,15 @@ class Bingo:
             board.read_board(input[lineno:lineno+5])
             self.boards.append(board)
 
-    def play(self):
+    def play(self) -> int:
         for ball in self.balls:
             for board in self.boards:
                 board.mark(ball)
-                if board.is_bingo():
+                if board.has_bingo():
                     #print(board)
                     return (board.unmarked_sum() * ball)
 
-    def play_till_last(self):
+    def play_till_last(self) -> int:
         wins = [0 for _ in range(len(self.boards))]
 
         for ball in self.balls:
@@ -104,7 +106,7 @@ class Bingo:
             for board in self.boards:
                 board.mark(ball)
 
-                if board.is_bingo():
+                if board.has_bingo():
                     wins[boardno] = 1
 
                 if sum(wins) == len(self.boards):
