@@ -96,7 +96,8 @@ class Bingo:
                 board.mark(ball)
                 if board.has_bingo():
                     #print(board)
-                    return (board.unmarked_sum() * ball)
+                    score = board.unmarked_sum() * ball
+                    return score
 
     def play_till_last(self) -> int:
         wins = [0 for _ in range(len(self.boards))]
@@ -110,7 +111,8 @@ class Bingo:
                     wins[boardno] = 1
 
                 if sum(wins) == len(self.boards):
-                    return (board.unmarked_sum() * ball)
+                    score = board.unmarked_sum() * ball
+                    return score
                 
                 boardno += 1
 
