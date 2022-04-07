@@ -1,8 +1,9 @@
 
+MAX_FISH_TIMER = 8
 
 class LaternfishSchool:
     def __init__(self, laternfish: list[int]):
-        self.laternfish = [0 for _ in range(9)]
+        self.laternfish = [0 for _ in range(MAX_FISH_TIMER + 1)]
         for fish in laternfish:
             self.laternfish[fish] += 1
 
@@ -11,8 +12,8 @@ class LaternfishSchool:
             #print(f"day {day}: ", self.laternfish)
             self.pass_time()
 
-    def pass_time(self):
-        temp = [0 for _ in range(9)]
+    def pass_time(self) -> None:
+        temp = [0 for _ in range(MAX_FISH_TIMER + 1)]
         
         temp[6] += self.laternfish[0]
         temp[8] += self.laternfish[0]
@@ -21,11 +22,8 @@ class LaternfishSchool:
 
         self.laternfish = temp
 
-    def size(self):
-        total_size = 0
-        for i in range(0, 9):
-            total_size += self.laternfish[i]
-        return total_size
+    def size(self) -> int:
+        return sum(self.laternfish)
 
 
 if __name__ == '__main__':
